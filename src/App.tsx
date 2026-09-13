@@ -714,7 +714,7 @@ function App() {
 
           {/* Footer Bottom */}
 
-          <div className="mt-14 border-t border-gray-100 pt-7">
+          <div className="mt-14 border-t border-gray-100 -mx-5 pt-7">
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 

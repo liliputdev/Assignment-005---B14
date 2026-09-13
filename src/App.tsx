@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -7,52 +7,45 @@ import bannerStack from "./assets/banner-stack.png"
 import technologiesData from "./data/technologies.json"
 
 function App() {
-  const [technologies, setTechnologies] = useState<typeof technologiesData>([])
   const [stack, setStack] = useState<typeof technologiesData>([])
-  const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  // Load technology data
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTechnologies(technologiesData)
-      setLoading(false)
-    }, 300)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Add technology
-  const handleAddToStack = (technology: (typeof technologiesData)[number]) => {
-    const alreadyAdded = stack.some((item) => item.id === technology.id)
+  const handleAddToStack = (
+    technology: (typeof technologiesData)[number]
+  ) => {
+    const alreadyAdded = stack.some(
+      (item) => item.id === technology.id
+    )
 
     if (alreadyAdded) {
       toast.warning(`${technology.name} is already in your stack.`)
       return
     }
 
-    setStack((currentStack) => [...currentStack, technology])
+    setStack((currentStack) => [
+      ...currentStack,
+      technology,
+    ])
+
     toast.success(`${technology.name} added to your stack.`)
   }
 
-  // Remove technology
   const handleRemove = (id: number) => {
-    const removedTechnology = stack.find((item) => item.id === id)
+    const removed = stack.find(
+      (item) => item.id === id
+    )
 
     setStack((currentStack) =>
       currentStack.filter((item) => item.id !== id)
     )
 
-    if (removedTechnology) {
-      toast.info(`${removedTechnology.name} removed from your stack.`)
+    if (removed) {
+      toast.info(`${removed.name} removed from your stack.`)
     }
   }
 
-  // Remove all
   const handleRemoveAll = () => {
-    if (stack.length === 0) {
-      return
-    }
+    if (stack.length === 0) return
 
     setStack([])
     toast.info("All technologies removed from your stack.")
@@ -61,9 +54,9 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* ==================== HEADER ==================== */}
-      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-8">
+      {/* ================= HEADER ================= */}
+      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
 
           {/* Logo */}
           <a href="#" className="flex items-center">
@@ -78,84 +71,78 @@ function App() {
           <nav className="hidden items-center gap-8 md:flex">
             <a
               href="#"
-              className="text-sm font-normal text-gray-900 transition hover:text-pink-500"
+              className="text-sm font-normal text-gray-900 hover:text-pink-500"
             >
               Home
             </a>
 
             <a
               href="#technologies"
-              className="text-sm font-normal text-gray-600 transition hover:text-pink-500"
+              className="text-sm font-normal text-gray-600 hover:text-pink-500"
             >
               Technologies
             </a>
 
             <a
               href="#projects"
-              className="text-sm font-normal text-gray-600 transition hover:text-pink-500"
+              className="text-sm font-normal text-gray-600 hover:text-pink-500"
             >
               Projects
             </a>
 
             <a
               href="#about"
-              className="text-sm font-normal text-gray-600 transition hover:text-pink-500"
+              className="text-sm font-normal text-gray-600 hover:text-pink-500"
             >
               About
             </a>
 
             <a
               href="#contact"
-              className="text-sm font-normal text-gray-600 transition hover:text-pink-500"
+              className="text-sm font-normal text-gray-600 hover:text-pink-500"
             >
               Contact
             </a>
           </nav>
 
-          {/* Authentication */}
+          {/* Auth */}
           <div className="hidden items-center gap-3 sm:flex">
             <button
               type="button"
-              className="px-4 py-2 text-sm font-normal text-gray-700 transition hover:text-pink-500"
+              className="px-4 py-2 text-sm font-normal text-gray-700 hover:text-pink-500"
             >
               Sign In
             </button>
 
             <button
               type="button"
-              className="rounded-full bg-[#DB1677] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#C41269]"
+              className="rounded-full bg-[#DB1677] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#C41269]"
             >
               Sign Up
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Button */}
           <button
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="rounded-lg p-2 text-2xl text-gray-700 md:hidden"
-            aria-label="Open menu"
+            className="text-2xl text-gray-700 md:hidden"
           >
             ☰
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <div className="border-t border-gray-100 bg-white px-6 py-5 md:hidden">
             <nav className="flex flex-col gap-4">
-              <a
-                href="#"
-                onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-700"
-              >
+              <a href="#" onClick={() => setMenuOpen(false)}>
                 Home
               </a>
 
               <a
                 href="#technologies"
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-700"
               >
                 Technologies
               </a>
@@ -163,7 +150,6 @@ function App() {
               <a
                 href="#projects"
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-700"
               >
                 Projects
               </a>
@@ -171,7 +157,6 @@ function App() {
               <a
                 href="#about"
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-700"
               >
                 About
               </a>
@@ -179,7 +164,6 @@ function App() {
               <a
                 href="#contact"
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-700"
               >
                 Contact
               </a>
@@ -189,35 +173,39 @@ function App() {
       </header>
 
 
-      {/* ==================== HERO ==================== */}
+      {/* ================= MAIN ================= */}
       <main>
 
-        <section className="px-6 py-16 sm:px-8 lg:px-8 lg:py-20">
+        {/* ================= HERO ================= */}
+        <section className="px-6 py-16 lg:py-20">
           <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
 
-            {/* Hero Content */}
+            {/* Hero Text */}
             <div>
-              <h1 className="text-6xl font-black leading-[0.98] tracking-[-0.045em] text-[#111827] lg:text-7xl">
+              <h1 className="text-5xl font-black leading-[0.98] tracking-[-0.045em] text-[#111827] sm:text-6xl lg:text-7xl">
                 Build Your
                 <span className="block bg-gradient-to-r from-orange-500 via-pink-500 to-violet-600 bg-clip-text text-transparent">
                   Perfect Dev Stack
                 </span>
               </h1>
 
-              <p className="mt-10 max-w-2xl text-xl font-normal leading-[1.6] text-[#52627a]">
-                Explore popular web technologies, discover powerful tools, and
-                create your own personalized developer stack in one place.
+              <p className="mt-8 max-w-2xl text-lg font-normal leading-7 text-[#52627a] sm:text-xl">
+                Explore popular web technologies, discover powerful tools,
+                and create your own personalized developer stack in one place.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-8 flex flex-wrap gap-3">
+
                 <button
                   type="button"
                   onClick={() =>
                     document
                       .getElementById("technologies")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      })
                   }
-                  className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-base font-semibold text-white transition hover:opacity-90"
+                  className="rounded-lg bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                 >
                   Explore Technologies
                 </button>
@@ -227,12 +215,15 @@ function App() {
                   onClick={() =>
                     document
                       .getElementById("technologies")
-                      ?.scrollIntoView({ behavior: "smooth" })
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      })
                   }
-                  className="rounded-lg border border-gray-200 bg-white px-9 py-3 text-base font-normal text-gray-700 transition hover:border-gray-300"
+                  className="rounded-lg border border-gray-200 px-8 py-3 text-sm font-normal text-gray-700 transition hover:border-gray-300"
                 >
                   Learn More
                 </button>
+
               </div>
             </div>
 
@@ -249,10 +240,10 @@ function App() {
         </section>
 
 
-        {/* ==================== TECHNOLOGIES ==================== */}
+        {/* ================= TECHNOLOGIES ================= */}
         <section
           id="technologies"
-          className="px-6 py-16 sm:px-8 lg:px-8"
+          className="px-6 py-16"
         >
           <div className="mx-auto max-w-7xl">
 
@@ -269,183 +260,183 @@ function App() {
             </p>
 
 
-            {/* Loading */}
-            {loading ? (
-              <div className="flex min-h-[300px] items-center justify-center">
-                <div className="text-sm text-gray-500">
-                  Loading technologies...
-                </div>
+            {/* Cards + Stack */}
+            <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_280px]">
+
+              {/* Technology Cards */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+                {technologiesData.map((technology) => {
+                  const isAdded = stack.some(
+                    (item) => item.id === technology.id
+                  )
+
+                  return (
+                    <div
+                      key={technology.id}
+                      className="flex min-h-[145px] flex-col rounded-xl border border-gray-100 bg-white p-3"
+                    >
+
+                      {/* Icon + Badge */}
+                      <div className="flex items-start justify-between">
+                        <img
+                          src={technology.icon}
+                          alt={technology.name}
+                          className="h-7 w-7 object-contain"
+                        />
+
+                        <span className="rounded-full bg-blue-50 px-2 py-1 text-[8px] font-medium text-blue-500">
+                          {technology.badge}
+                        </span>
+                      </div>
+
+
+                      {/* Name */}
+                      <h3 className="mt-3 text-sm font-semibold text-[#111827]">
+                        {technology.name}
+                      </h3>
+
+
+                      {/* Description */}
+                      <p className="mt-1 min-h-[32px] text-[8px] leading-3 text-[#718096]">
+                        {technology.description}
+                      </p>
+
+
+                      {/* Details */}
+                      <div className="mt-auto flex items-center justify-between gap-2 pt-3 text-[7px] text-[#718096]">
+
+                        <span className="rounded bg-gray-50 px-2 py-1">
+                          {technology.category}
+                        </span>
+
+                        <span>
+                          {technology.difficulty}
+                        </span>
+
+                        <span>
+                          ★ {technology.rating}
+                        </span>
+
+                      </div>
+
+
+                      {/* Add Button */}
+                      <button
+                        type="button"
+                        disabled={isAdded}
+                        onClick={() =>
+                          handleAddToStack(technology)
+                        }
+                        className={`mt-2 w-full rounded-md py-2 text-[8px] font-medium text-white transition ${
+                          isAdded
+                            ? "cursor-not-allowed bg-gray-400"
+                            : "bg-[#111827] hover:bg-pink-600"
+                        }`}
+                      >
+                        {isAdded
+                          ? "Added to Stack"
+                          : "Add to Stack"}
+                      </button>
+
+                    </div>
+                  )
+                })}
+
               </div>
-            ) : (
 
-              /* Cards + Stack */
-              <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_280px]">
 
-                {/* Technology Cards */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {/* ================= YOUR STACK ================= */}
+              <aside className="h-fit rounded-xl border border-gray-100 bg-white p-4 lg:sticky lg:top-24">
 
-                  {technologies.map((technology) => {
-                    const isAdded = stack.some(
-                      (item) => item.id === technology.id
-                    )
+                <h3 className="text-sm font-semibold text-[#111827]">
+                  Your Stack
+                </h3>
 
-                    return (
+                <p className="mt-1 text-[8px] text-[#94a3b8]">
+                  {stack.length}{" "}
+                  {stack.length === 1
+                    ? "Technology"
+                    : "Technologies"}{" "}
+                  selected
+                </p>
+
+
+                {/* Empty State */}
+                {stack.length === 0 ? (
+
+                  <div className="mt-4 flex h-16 items-center justify-center rounded-md border border-dashed border-gray-200">
+                    <p className="text-[8px] text-[#94a3b8]">
+                      Your stack is empty
+                    </p>
+                  </div>
+
+                ) : (
+
+                  /* Selected Technologies */
+                  <div className="mt-4 space-y-2">
+
+                    {stack.map((technology) => (
+
                       <div
                         key={technology.id}
-                        className="flex min-h-[145px] flex-col rounded-xl border border-gray-100 bg-white p-3 transition hover:border-gray-200"
+                        className="flex items-center gap-2 rounded-md border border-gray-100 p-2"
                       >
 
-                        {/* Icon + Badge */}
-                        <div className="flex items-start justify-between">
-                          <img
-                            src={technology.icon}
-                            alt={technology.name}
-                            className="h-7 w-7 object-contain"
-                          />
+                        <img
+                          src={technology.icon}
+                          alt={technology.name}
+                          className="h-5 w-5 object-contain"
+                        />
 
-                          <span className="rounded-full bg-blue-50 px-2 py-1 text-[8px] font-medium text-blue-500">
-                            {technology.badge}
-                          </span>
-                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-[9px] font-semibold text-[#111827]">
+                            {technology.name}
+                          </p>
 
-
-                        {/* Name */}
-                        <h3 className="mt-3 text-sm font-semibold text-[#111827]">
-                          {technology.name}
-                        </h3>
-
-
-                        {/* Description */}
-                        <p className="mt-1 min-h-[30px] text-[8px] leading-3 text-[#718096]">
-                          {technology.description}
-                        </p>
-
-
-                        {/* Information */}
-                        <div className="mt-auto flex items-center justify-between gap-2 pt-3 text-[7px] text-[#718096]">
-
-                          <span className="rounded bg-gray-50 px-2 py-1">
+                          <p className="text-[7px] text-[#94a3b8]">
                             {technology.category}
-                          </span>
-
-                          <span>
-                            {technology.difficulty}
-                          </span>
-
-                          <span>
-                            ★ {technology.rating}
-                          </span>
-
+                          </p>
                         </div>
 
-
-                        {/* Add Button */}
                         <button
                           type="button"
-                          disabled={isAdded}
-                          onClick={() => handleAddToStack(technology)}
-                          className={`mt-2 w-full rounded-md py-2 text-[8px] font-medium text-white transition ${
-                            isAdded
-                              ? "cursor-not-allowed bg-gray-400"
-                              : "bg-[#111827] hover:bg-pink-600"
-                          }`}
+                          onClick={() =>
+                            handleRemove(technology.id)
+                          }
+                          className="text-xs text-[#94a3b8] hover:text-red-500"
                         >
-                          {isAdded ? "Added to Stack" : "Add to Stack"}
+                          ×
                         </button>
 
                       </div>
-                    )
-                  })}
 
-                </div>
+                    ))}
 
-
-                {/* ==================== YOUR STACK ==================== */}
-                <aside className="h-fit rounded-xl border border-gray-100 bg-white p-4 lg:sticky lg:top-24">
-
-                  <h3 className="text-sm font-semibold text-[#111827]">
-                    Your Stack
-                  </h3>
-
-                  <p className="mt-1 text-[8px] text-[#94a3b8]">
-                    {stack.length}{" "}
-                    {stack.length === 1
-                      ? "Technology"
-                      : "Technologies"}{" "}
-                    selected
-                  </p>
+                  </div>
+                )}
 
 
-                  {/* Empty */}
-                  {stack.length === 0 ? (
-                    <div className="mt-4 flex h-16 items-center justify-center rounded-md border border-dashed border-gray-200">
-                      <p className="text-[8px] text-[#94a3b8]">
-                        Your stack is empty
-                      </p>
-                    </div>
-                  ) : (
+                {/* Remove All */}
+                <button
+                  type="button"
+                  onClick={handleRemoveAll}
+                  disabled={stack.length === 0}
+                  className="mt-4 w-full rounded-md border border-red-200 py-1.5 text-[8px] font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Remove All
+                </button>
 
-                    /* Selected Items */
-                    <div className="mt-4 space-y-2">
-                      {stack.map((technology) => (
-                        <div
-                          key={technology.id}
-                          className="flex items-center gap-2 rounded-md border border-gray-100 p-2"
-                        >
+              </aside>
 
-                          <img
-                            src={technology.icon}
-                            alt={technology.name}
-                            className="h-5 w-5 object-contain"
-                          />
-
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-[9px] font-semibold text-[#111827]">
-                              {technology.name}
-                            </p>
-
-                            <p className="text-[7px] text-[#94a3b8]">
-                              {technology.category}
-                            </p>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleRemove(technology.id)
-                            }
-                            className="text-xs text-[#94a3b8] transition hover:text-red-500"
-                            aria-label={`Remove ${technology.name}`}
-                          >
-                            ×
-                          </button>
-
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-
-                  {/* Remove All */}
-                  <button
-                    type="button"
-                    onClick={handleRemoveAll}
-                    disabled={stack.length === 0}
-                    className="mt-4 w-full rounded-md border border-red-200 py-1.5 text-[8px] font-medium text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    Remove All
-                  </button>
-
-                </aside>
-
-              </div>
-            )}
+            </div>
 
           </div>
         </section>
 
 
-        {/* ==================== PLACEHOLDER SECTIONS ==================== */}
+        {/* ================= PLACEHOLDER SECTIONS ================= */}
+
         <section id="projects" className="hidden">
           Projects
         </section>
@@ -461,15 +452,20 @@ function App() {
       </main>
 
 
-      {/* ==================== FOOTER ==================== */}
+      {/* ================= FOOTER ================= */}
       <footer className="border-t border-gray-100 bg-white">
+
         <div className="mx-auto max-w-[1340px] px-6 pt-16 pb-12">
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
 
             {/* Brand */}
             <div>
-              <a href="#" className="inline-flex items-center">
+
+              <a
+                href="#"
+                className="inline-flex items-center"
+              >
                 <img
                   src={logoText}
                   alt="Dev Stack"
@@ -477,119 +473,132 @@ function App() {
                 />
               </a>
 
-              <p className="mt-5 max-w-[440px] text-sm font-normal leading-5 text-[#718096]">
+              <p className="mt-5 max-w-[440px] text-sm leading-5 text-[#718096]">
                 Curated tools, technologies, and resources for developers
                 building modern software.
               </p>
 
-              <div className="mt-6 flex items-center gap-5">
+              <div className="mt-6 flex gap-5">
                 <a
                   href="#"
-                  className="text-sm font-medium text-[#475569] transition hover:text-pink-600"
+                  className="text-sm text-[#475569] hover:text-pink-600"
                 >
                   GitHub
                 </a>
 
                 <a
                   href="#"
-                  className="text-sm font-medium text-[#475569] transition hover:text-pink-600"
+                  className="text-sm text-[#475569] hover:text-pink-600"
                 >
                   Twitter
                 </a>
 
                 <a
                   href="#"
-                  className="text-sm font-medium text-[#475569] transition hover:text-pink-600"
+                  className="text-sm text-[#475569] hover:text-pink-600"
                 >
                   LinkedIn
                 </a>
               </div>
+
             </div>
 
 
             {/* Product */}
             <div>
+
               <h3 className="text-sm font-semibold uppercase tracking-wide text-[#111827]">
                 Product
               </h3>
 
               <div className="mt-5 space-y-3">
+
                 <a
                   href="#"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Home
                 </a>
 
                 <a
                   href="#technologies"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Technologies
                 </a>
 
                 <a
                   href="#projects"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Projects
                 </a>
+
               </div>
+
             </div>
 
 
             {/* Company */}
             <div>
+
               <h3 className="text-sm font-semibold uppercase tracking-wide text-[#111827]">
                 Company
               </h3>
 
               <div className="mt-5 space-y-3">
+
                 <a
                   href="#about"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   About
                 </a>
 
                 <a
                   href="#contact"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Contact
                 </a>
 
                 <a
                   href="#"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Careers
                 </a>
+
               </div>
+
             </div>
 
 
             {/* Legal */}
             <div>
+
               <h3 className="text-sm font-semibold uppercase tracking-wide text-[#111827]">
                 Legal
               </h3>
 
               <div className="mt-5 space-y-3">
+
                 <a
                   href="#"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Privacy Policy
                 </a>
 
                 <a
                   href="#"
-                  className="block text-sm font-normal text-[#718096] transition hover:text-pink-600"
+                  className="block text-sm text-[#718096] hover:text-pink-600"
                 >
                   Terms of Service
                 </a>
+
               </div>
+
             </div>
 
           </div>
@@ -597,36 +606,41 @@ function App() {
 
           {/* Footer Bottom */}
           <div className="mt-14 border-t border-gray-100 pt-7">
+
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-              <p className="text-sm font-normal text-[#94a3b8]">
+              <p className="text-sm text-[#94a3b8]">
                 © 2026 Dev Stack. All rights reserved.
               </p>
 
-              <div className="flex items-center gap-7">
+              <div className="flex gap-7">
+
                 <a
                   href="#"
-                  className="text-sm font-normal text-[#94a3b8] transition hover:text-pink-600"
+                  className="text-sm text-[#94a3b8] hover:text-pink-600"
                 >
                   Privacy
                 </a>
 
                 <a
                   href="#"
-                  className="text-sm font-normal text-[#94a3b8] transition hover:text-pink-600"
+                  className="text-sm text-[#94a3b8] hover:text-pink-600"
                 >
                   Terms
                 </a>
+
               </div>
 
             </div>
+
           </div>
 
         </div>
+
       </footer>
 
 
-      {/* Toast Notifications */}
+      {/* Toast */}
       <ToastContainer
         position="top-right"
         autoClose={2500}

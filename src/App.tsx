@@ -122,6 +122,28 @@ function App() {
           </div>
         </section>
       </main>
+
+{/* Technologies Section */}
+<section id="technologies" className="px-6 py-16 sm:px-8 lg:px-8">
+  <div className="mx-auto max-w-7xl">
+
+    <h2 className="text-3xl font-black tracking-tight text-[#111827] sm:text-4xl">
+      Explore the{" "}
+      <span className="text-pink-500">
+        Technologies
+      </span>
+    </h2>
+
+    <p className="mt-2 text-sm font-normal text-[#718096]">
+      Pick one technology per category to build your ideal stack.
+    </p>
+
+  </div>
+</section>
+
+
+
+
       {/* Footer */}
 <footer className="border-t border-gray-100 bg-white">
   <div className="mx-auto max-w-[1340px] px-6 pt-16 pb-12">
